@@ -1,14 +1,41 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart' as sysPath;
+import 'package:path/path.dart' as path;
 
-class ImagePicker extends StatefulWidget {
+class ImagePickerWidget extends StatefulWidget {
+  Function _onImagePicked;
+  ImagePickerWidget(this._onImagePicked);
+
   @override
   _ImagePickerState createState() => _ImagePickerState();
 }
 
-class _ImagePickerState extends State<ImagePicker> {
-  File _imageUrl;
+class _ImagePickerState extends State<ImagePickerWidget> {
+  File _pickedImageFile;
+
+  void _pickImage() async {
+    final pickedImage = await ImagePicker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
+
+    if(pickedImage == null) {
+      return;
+    }
+
+    final appDir = await sysPath.getApplicationDocumentsDirectory();
+    final fileName = path.basename(pickedImage.path);
+    _pickedImageFile = await pickedImage.copy('${appDir.path}/$fileName');
+    widget._onImagePicked(_pickedImageFile);
+
+    setState(() {
+      _pickedImageFile = pickedImage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -19,13 +46,13 @@ class _ImagePickerState extends State<ImagePicker> {
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey),
           ),
-          child: _imageUrl == null
+          child: _pickedImageFile == null
               ? Text(
                   'No Image Available !',
                   textAlign: TextAlign.center,
                 )
               : Image.file(
-                  _imageUrl,
+                  _pickedImageFile,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -36,7 +63,7 @@ class _ImagePickerState extends State<ImagePicker> {
         ),
         Expanded(
           child: FlatButton.icon(
-            onPressed: () {},
+            onPressed: _pickImage,
             icon: Icon(Icons.camera),
             label: Text('Take a picture'),
             textColor: Theme.of(context).primaryColor,
