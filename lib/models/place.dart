@@ -28,4 +28,13 @@ class Place {
     @required this.location,
     @required this.image
   });
+
+  Map<String, Object> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'image': image.path,
+      'location': location,
+    };
+  }
 }

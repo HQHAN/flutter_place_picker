@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart' as sysPath;
 import 'package:path/path.dart' as path;
 
 class ImagePickerWidget extends StatefulWidget {
-  Function _onImagePicked;
+  final Function _onImagePicked;
   ImagePickerWidget(this._onImagePicked);
 
   @override
