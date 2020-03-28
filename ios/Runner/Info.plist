@@ -45,7 +45,7 @@
 	<string>Need to get your location!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Need to get your location!</string>
-	
-
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 </dict>
 </plist>

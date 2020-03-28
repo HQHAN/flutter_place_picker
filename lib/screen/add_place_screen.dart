@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:place_picker/models/place.dart';
 import 'package:place_picker/providers/greate_place_provider.dart';
 import 'package:place_picker/widgets/image_picker.dart';
 import 'package:place_picker/widgets/location_picker.dart';
@@ -12,22 +13,31 @@ class AddPlaceScreen extends StatefulWidget {
   _AddPlaceScreenState createState() => _AddPlaceScreenState();
 }
 
-class _AddPlaceScreenState extends State<AddPlaceScreen> with WidgetsBindingObserver {
+class _AddPlaceScreenState extends State<AddPlaceScreen>
+    with WidgetsBindingObserver {
   final _titleTextController = TextEditingController();
   File _imageFileToSave;
+  PlaceLocation _pickedLocation;
 
   void _onSelectImage(File pickedImage) {
     _imageFileToSave = pickedImage;
   }
 
+  void _onSelectLocation(PlaceLocation location) {
+    _pickedLocation = location;
+  }
+
   void _onAddPlace() {
-    if (_titleTextController.value == null || _imageFileToSave == null) {
+    if (_titleTextController.value == null ||
+        _imageFileToSave == null ||
+        _pickedLocation == null) {
       return;
     }
 
     Provider.of<GreatPlaceProvider>(context, listen: false).savePlace(
       _titleTextController.text,
       _imageFileToSave,
+      _pickedLocation,
     );
 
     Navigator.of(context).pop();
@@ -80,8 +90,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> with WidgetsBindingObse
                       height: 10,
                     ),
                     ImagePickerWidget(_onSelectImage),
-                    SizedBox(height: 10,),
-                    LocationPickerWidget(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    LocationPickerWidget(_onSelectLocation),
                   ],
                 ),
               ),

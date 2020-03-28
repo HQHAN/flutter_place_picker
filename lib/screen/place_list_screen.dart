@@ -40,6 +40,7 @@ class PlaceListScreen extends StatelessWidget {
                                     FileImage(placeProvider.items[index].image),
                               ),
                               title: Text(placeProvider.items[index].title),
+                              subtitle: Text(placeProvider.items[index].location.address),
                             ),
                           ),
               ),

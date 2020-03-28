@@ -12,7 +12,7 @@ class DBHelper {
       placeDbPath,
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE $USER_PLACE_TABLE_NAME(id TEXT PRIMARY KEY, title TEXT, image TEXT)');
+            'CREATE TABLE $USER_PLACE_TABLE_NAME(id TEXT PRIMARY KEY, title TEXT, image TEXT, lat REAL, lnt REAL, address String)');
       },
       version: 1,
     );
