@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:place_picker/providers/greate_place_provider.dart';
 import 'package:place_picker/widgets/image_picker.dart';
+import 'package:place_picker/widgets/location_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
@@ -79,6 +80,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> with WidgetsBindingObse
                       height: 10,
                     ),
                     ImagePickerWidget(_onSelectImage),
+                    SizedBox(height: 10,),
+                    LocationPickerWidget(),
                   ],
                 ),
               ),
